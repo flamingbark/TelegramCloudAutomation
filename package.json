@@ -1,0 +1,16 @@
+{
+  "name": "telegram-cloud-automation",
+  "version": "1.0.0",
+  "private": false,
+  "type": "module",
+  "description": "Cloud-runner to send RickBurpBot trending prompts via Telegram user session",
+  "main": "src/sendPrompts.js",
+  "scripts": {
+    "start": "node src/sendPrompts.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "telegram": "^2.22.2",
+    "winston": "^3.11.0"
+  }
+}
