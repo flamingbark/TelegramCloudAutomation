@@ -9,7 +9,7 @@ const logger = winston.createLogger({
   level: 'info',
   format: winston.format.combine(
     winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-    winston.format.printf(({ level, message, timestamp }) => ${timestamp} [] : )
+    winston.format.printf(({ level, message, timestamp }) => `${timestamp} [${level}] : ${message}`)
   ),
   transports: [
     new winston.transports.Console(),
@@ -40,9 +40,9 @@ async function main() {
       await user.sendText(id, '/tt@rick');
       await new Promise(r => setTimeout(r, 1000));
       await user.sendText(id, '/xt@rick');
-      logger.info(Sent /tt@rick and /xt@rick to );
+      logger.info(`Sent /tt@rick and /xt@rick to ${id}`);
     } catch (e) {
-      logger.warn(Failed to send prompts to : );
+      logger.warn(`Failed to send prompts to ${id}: ${e.message}`);
     }
   }
 }

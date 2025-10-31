@@ -11,7 +11,7 @@ const logger = winston.createLogger({
   level: 'info',
   format: winston.format.combine(
     winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-    winston.format.printf(({ level, message, timestamp }) => ${timestamp} [] : )
+    winston.format.printf(({ level, message, timestamp }) => `${timestamp} [${level}] : ${message}`)
   ),
   transports: [
     new winston.transports.Console(),
@@ -49,7 +49,7 @@ export class UserTelegramClient {
       const res = await this.client.sendMessage(chatId, { message: text });
       return { id: res?.id };
     } catch (e) {
-      logger.warn(sendText failed for : );
+      logger.warn(`sendText failed for ${chatId}: ${e.message}`);
       throw e;
     }
   }
