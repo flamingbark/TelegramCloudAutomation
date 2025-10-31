@@ -7,6 +7,8 @@ import winston from 'winston';
 
 dotenv.config();
 
+fs.mkdirSync('logs', { recursive: true });
+
 const logger = winston.createLogger({
   level: 'info',
   format: winston.format.combine(
@@ -43,13 +45,24 @@ export class UserTelegramClient {
     this.ready = true;
     logger.info('UserTelegramClient connected');
   }
+  async disconnect() {
+    if (!this.client) return;
+    try {
+      await this.client.disconnect();
+    } catch (e) {
+      logger.warn(`UserTelegramClient disconnect error: ${e.message || e}`);
+    } finally {
+      this.ready = false;
+      this.client = null;
+    }
+  }
   async sendText(chatId, text) {
     if (!this.ready) throw new Error('UserTelegramClient not ready');
     try {
       const res = await this.client.sendMessage(chatId, { message: text });
       return { id: res?.id };
     } catch (e) {
-      logger.warn(`sendText failed for ${chatId}: ${e.message}`);
+      logger.warn(`sendText failed for ${chatId}: ${e.message || e}`);
       throw e;
     }
   }
